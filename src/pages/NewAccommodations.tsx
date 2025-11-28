@@ -159,7 +159,7 @@ export default function NewAccommodations() {
                 {acc.price_per_night && (
                   <div className="flex items-center gap-1">
                     <DollarSign className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-medium text-primary">${acc.price_per_night}/night</span>
+                    <span className="text-sm font-medium text-primary">₱{acc.price_per_night}/night</span>
                   </div>
                 )}
               </div>
