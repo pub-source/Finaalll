@@ -97,11 +97,11 @@ export function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-white">Full Name</Label>
+                <Label htmlFor="fullName" className="text-white">Username</Label>
                 <Input
                   id="fullName"
                   type="text"
-                  placeholder="Enter your full name"
+                  placeholder="Enter your Username"
                   value={formData.fullName}
                   onChange={handleInputChange('fullName')}
                   required
