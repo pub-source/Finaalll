@@ -51,27 +51,26 @@ export default function NewAccommodations() {
   };
 
   const filteredAccommodations = accommodations?.filter(acc => {
-    const matchesSearch = acc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch =
+      acc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       acc.location?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = selectedType === 'All' || 
-      acc.type?.toLowerCase() === selectedType.toLowerCase();
+
+    const matchesType =
+      selectedType === 'All' || acc.type?.toLowerCase() === selectedType.toLowerCase();
+
     return matchesSearch && matchesType;
   });
 
   return (
     <div className="p-6 space-y-6">
+      
+      {/* Header */}
       <div className="flex flex-col items-center text-center space-y-6">
-        <div>
-          <h1 className="text-4xl font-bold text-primary">
-            Discover Accommodations
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            Find the perfect place to stay
-          </p>
-        </div>
+        <h1 className="text-4xl font-bold text-primary">Discover Accommodations</h1>
+        <p className="text-muted-foreground">Find the perfect place to stay</p>
 
         <div className="relative w-full max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search accommodations..."
             value={searchTerm}
@@ -97,104 +96,119 @@ export default function NewAccommodations() {
 
       {isAdmin && (
         <div className="flex justify-end">
-          <Button onClick={() => { setSelectedItem(null); setDialogOpen(true); }} className="gap-2">
+          <Button
+            onClick={() => {
+              setSelectedItem(null);
+              setDialogOpen(true);
+            }}
+            className="gap-2"
+          >
             <Plus className="h-4 w-4" />
             Add Hotel
           </Button>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* ---------- GRID FIXED ---------- */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+
         {filteredAccommodations?.map((acc) => (
-          <Card key={acc.id} className="overflow-hidden hover:shadow-lg transition-shadow group relative">
+          <Card
+            key={acc.id}
+            className="overflow-hidden hover:shadow-lg transition-shadow group relative h-full flex flex-col"
+          >
+
+            {/* Image */}
             {acc.image_url && (
-              <div className="aspect-video relative overflow-hidden">
-                <img 
-                  src={acc.image_url} 
+              <div className="aspect-video overflow-hidden">
+                <img
+                  src={acc.image_url}
                   alt={acc.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-300"
                 />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute top-2 right-2 bg-background/80 hover:bg-background/90 rounded-full"
-                >
-                  <Heart className="h-4 w-4" />
-                </Button>
-                <Badge className="absolute top-2 left-2 bg-background/90 text-foreground border-0 capitalize">
-                  {acc.type}
-                </Badge>
               </div>
             )}
-            <CardContent className="p-4 space-y-3">
-              <div>
-                <h3 className="font-semibold text-lg">{acc.name}</h3>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
-                  <MapPin className="h-3 w-3 text-primary" />
-                  <span className="text-primary">{acc.location || 'Location not specified'}</span>
-                </div>
+
+            {/* ---------- CONTENT ---------- */}
+            <CardContent className="p-4 flex flex-col flex-1">
+
+              <h3 className="font-semibold text-lg">{acc.name}</h3>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                <MapPin className="h-3 w-3 text-primary" />
+                <span className="text-primary">
+                  {acc.location || 'Location not specified'}
+                </span>
               </div>
-              
+
               {acc.description && (
-                <p className="text-sm text-muted-foreground line-clamp-2">
+                <p className="text-sm text-muted-foreground line-clamp-2 mt-2">
                   {acc.description}
                 </p>
               )}
 
-              {acc.amenities && acc.amenities.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {acc.amenities.slice(0, 3).map((amenity: string, idx: number) => (
-                    <Badge key={idx} variant="outline" className="text-xs">
-                      {amenity}
+              {acc.amenities && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {acc.amenities.slice(0, 3).map((a: string, i: number) => (
+                    <Badge key={i} variant="outline" className="text-xs">
+                      {a}
                     </Badge>
                   ))}
                 </div>
               )}
 
-              <div className="flex items-center justify-between pt-2">
-                <div className="flex items-center gap-1">
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span className="text-sm font-medium">{acc.rating || '4.5'}</span>
-                </div>
-                {acc.price_per_night && (
+              {/* ---------- BOTTOM AREA (ALWAYS ALIGNED) ---------- */}
+              <div className="mt-auto pt-4">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
-                    <span className="text-sm font-medium text-primary">₱{acc.price_per_night}/night</span>
+                    <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                    <span className="text-sm font-medium">{acc.rating || '4.5'}</span>
+                  </div>
+
+                  {acc.price_per_night && (
+                    <span className="text-sm font-medium text-primary">
+                      P{acc.price_per_night}/night
+                    </span>
+                  )}
+                </div>
+
+                {/* Buttons */}
+                {!isAdmin ? (
+                  <LocationActionsPopover
+                    name={acc.name}
+                    location={acc.location}
+                    trigger={
+                      <Button className="w-full mt-3 gap-2">
+                        <Eye className="h-4 w-4" />
+                        View Details
+                      </Button>
+                    }
+                  />
+                ) : (
+                  <div className="flex items-center gap-2 mt-3">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1"
+                      onClick={() => {
+                        setSelectedItem(acc);
+                        setDialogOpen(true);
+                      }}
+                    >
+                      <Edit className="h-3 w-3 mr-1" />
+                      Edit
+                    </Button>
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                      onClick={() => handleDelete(acc.id)}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
                   </div>
                 )}
               </div>
-
-              {!isAdmin ? (
-                <LocationActionsPopover
-                  name={acc.name}
-                  location={acc.location}
-                  trigger={
-                    <Button className="w-full gap-2">
-                      <Eye className="h-4 w-4" />
-                      View Details
-                    </Button>
-                  }
-                />
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-1"
-                    onClick={() => { setSelectedItem(acc); setDialogOpen(true); }}
-                  >
-                    <Edit className="h-3 w-3 mr-1" />
-                    Edit
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-destructive hover:bg-destructive hover:text-destructive-foreground"
-                    onClick={() => handleDelete(acc.id)}
-                  >
-                    <Trash2 className="h-3 w-3" />
-                  </Button>
-                </div>
-              )}
             </CardContent>
           </Card>
         ))}
@@ -213,7 +227,10 @@ export default function NewAccommodations() {
       {dialogOpen && (
         <AccommodationDialog
           item={selectedItem}
-          onClose={() => { setDialogOpen(false); setSelectedItem(null); }}
+          onClose={() => {
+            setDialogOpen(false);
+            setSelectedItem(null);
+          }}
           onSave={() => {
             refetch();
             setDialogOpen(false);
