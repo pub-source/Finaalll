@@ -166,7 +166,7 @@ export default function NewAccommodations() {
 
                   {acc.price_per_night && (
                     <span className="text-sm font-medium text-primary">
-                      P{acc.price_per_night}/night
+                      ₱{acc.price_per_night}/night
                     </span>
                   )}
                 </div>
