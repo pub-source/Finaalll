@@ -34,7 +34,7 @@ export default function NewCafeShop() {
 
   const handleDelete = async (id: string) => {
     const { error } = await supabase.from('cafes').delete().eq('id', id);
-    
+
     if (error) {
       toast({
         title: 'Error',
@@ -62,12 +62,8 @@ export default function NewCafeShop() {
     <div className="p-6 space-y-6">
       <div className="flex flex-col items-center text-center space-y-6">
         <div>
-          <h1 className="text-4xl font-bold text-primary">
-            Discover Cafes & Restaurants
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            Discover the best dining experiences
-          </p>
+          <h1 className="text-4xl font-bold text-primary">Discover Cafes & Restaurants</h1>
+          <p className="text-muted-foreground mt-2">Discover the best dining experiences</p>
         </div>
 
         <div className="relative w-full max-w-md">
@@ -104,9 +100,11 @@ export default function NewCafeShop() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* GRID FIXED ALIGNMENT */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch content-stretch">
         {filteredCafes?.map((cafe) => (
-          <Card key={cafe.id} className="overflow-hidden hover:shadow-lg transition-shadow group relative">
+          <Card key={cafe.id} className="overflow-hidden hover:shadow-lg transition-shadow group relative flex flex-col h-full">
+
             {cafe.image_url && (
               <div className="aspect-video relative overflow-hidden">
                 <img 
@@ -128,27 +126,28 @@ export default function NewCafeShop() {
                 )}
               </div>
             )}
-            <CardContent className="p-4 space-y-3">
-              <div>
+
+            <CardContent className="p-4 space-y-3 flex flex-col flex-1">
+              <div className="flex-1">
                 <h3 className="font-semibold text-lg">{cafe.name}</h3>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
                   <MapPin className="h-3 w-3 text-primary" />
                   <span className="text-primary">{cafe.location || 'Location not specified'}</span>
                 </div>
-              </div>
-              
-              {cafe.description && (
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {cafe.description}
-                </p>
-              )}
 
-              {cafe.opening_hours && (
-                <div className="flex items-center gap-1 text-sm text-muted-foreground pt-2">
-                  <Clock className="h-3 w-3" />
-                  <span>{cafe.opening_hours}</span>
-                </div>
-              )}
+                {cafe.description && (
+                  <p className="text-sm text-muted-foreground line-clamp-2 mt-2 flex-1">
+                    {cafe.description}
+                  </p>
+                )}
+
+                {cafe.opening_hours && (
+                  <div className="flex items-center gap-1 text-sm text-muted-foreground pt-2">
+                    <Clock className="h-3 w-3" />
+                    <span>{cafe.opening_hours}</span>
+                  </div>
+                )}
+              </div>
 
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center gap-1">
@@ -165,14 +164,14 @@ export default function NewCafeShop() {
                   name={cafe.name}
                   location={cafe.location}
                   trigger={
-                    <Button className="w-full gap-2">
+                    <Button className="w-full gap-2 mt-3">
                       <Eye className="h-4 w-4" />
                       View Details
                     </Button>
                   }
                 />
               ) : (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 mt-3">
                   <Button
                     variant="outline"
                     size="sm"
