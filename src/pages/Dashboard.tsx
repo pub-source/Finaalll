@@ -13,8 +13,8 @@ export default function Dashboard() {
   const popularSpots = [
     { name: "Hulgan falls", rating: 4.5, visitors: 2340 },
     { name: "Enchanted Kingdom", rating: 4.3, visitors: 1890 },
-    { name: "Historic City Center", rating: 4.7, visitors: 3210 },
-    { name: "Waterfall Adventure", rating: 4.9, visitors: 1567 }
+    { name: "SAME OLD Coffee", rating: 4.5, visitors: 3210 },
+    { name: "Villa Tagumpay Resort", rating: 5, visitors: 1567 }
   ];
 
   return (
